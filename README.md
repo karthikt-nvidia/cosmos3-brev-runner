@@ -1,6 +1,6 @@
 # cosmos3-brev-runner
 
-> **Status: pending first GPU validation.** This runner has not completed a GPU run yet. Its settings come from an earlier, separately verified prototype run of the same model and server (see "Provenance" below).
+> **Status: GPU-validated at commit `7ebbe8f`.** Same launchable, same scene (seed 0): L4 `g2-standard-8` ran out of CUDA memory (`RESULT=FAIL reason=server-exited-before-ready`, exit 1); RTX PRO 6000 Blackwell `g7e.2xlarge` rendered the clip (`RESULT=PASS`, model load 180 s, render 369 s, about 24 min from create to done). Both workspaces were deleted; total GPU cost was about $2.66.
 
 Render one image-to-video clip **with sound** using NVIDIA Cosmos3-Nano on a [Brev](https://brev.nvidia.com) GPU, driven entirely from a machine with no GPU and no shell on the GPU VM: no `brev ssh`, no `brev exec`, no copy, port-forward or tunnel. Only Brev's control plane (create, status, logs API, delete).
 
@@ -66,7 +66,7 @@ Produce one Cosmos3-Nano image-to-video clip with sound in `media/current/`, usi
 `run.py` always runs `brev delete <ws>` and polls `brev ls --json` until the name is gone, even after errors or the hard cap. Confirm with `brev ls --json`; if `[run] WARNING` appears, delete manually.
 
 ### Known limitations
-- **Pending first GPU validation:** this exact single-scene runner has not completed a GPU run.
+- Validated on one L4 (expected failure) and one RTX PRO 6000 run at `7ebbe8f`; other GPU types and later commits are untested.
 - Runs with `--no-guardrails` (the guardrail model is gated).
 - The clip returns as a compressed preview; full resolution only if under 1.5 MB.
 - Editing a Brev launchable is console-only; change behaviour by pushing a commit and relaunching with a new `--ref`.
@@ -104,7 +104,7 @@ The default image is referenced **by URL only**: https://huggingface.co/nvidia/C
 Track `elapsed time × hourly price` (printed while polling and written to `media/current/cost_ledger.txt`). `--cap-min` is a hard cap: the workspace is deleted when it is reached. Check current prices with `brev search`.
 
 ## Provenance
-A prototype with the same image digest, model revision, server flags and request fields rendered two clips successfully on an RTX PRO 6000 Blackwell and ran out of memory on an L4. This repo is a cleaned-up single-scene version of that workload (scene from files, input-image hash check, exact weights-revision check, thin clone-and-bootstrap launch). Those changes have not yet run on a GPU.
+A prototype with the same image digest, model revision, server flags and request fields rendered two clips successfully on an RTX PRO 6000 Blackwell and ran out of memory on an L4. This repo is a cleaned-up single-scene version of that workload (scene from files, input-image hash check, exact weights-revision check, thin clone-and-bootstrap launch). This runner was then validated on its own at `7ebbe8f` (see Status above).
 
 ## License
 Code in this repository: Apache License 2.0 (`LICENSE`). Third-party models, images and containers are under their own terms: see `NOTICE.md`.
