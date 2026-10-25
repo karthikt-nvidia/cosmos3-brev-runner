@@ -95,6 +95,9 @@ def main():
     return run(a, params)
 
 
+DONE_RE = re.compile(r"^\[c3\] \S+ done$|^\[launchable\] .*RESULT=FAIL")
+
+
 def run(a, params):
     key = os.environ["BREV_API_KEY"]; out = a.out; os.makedirs(out, exist_ok=True)
 
@@ -157,8 +160,8 @@ def run(a, params):
                     txt = "\n".join(parts)
                     if len(txt) > len(logtxt):
                         logtxt = txt; open(os.path.join(out, "brev_logs.txt"), "w").write(txt)
-                        if any(l.startswith(("[c3]", "[launchable]")) for l in txt.splitlines()):
-                            reason = "setup-finished"; break  # setup log is a placeholder until the script exits
+                        if any(DONE_RE.match(l) for l in txt.splitlines()):
+                            reason = "setup-finished"; break  # the log streams while setup runs; stop only on a final line
                 except Exception as e:
                     open(os.path.join(out, "poll_err.txt"), "a").write(f"{time.time()} {e}\n")
             if el > a.cap_min * 60:

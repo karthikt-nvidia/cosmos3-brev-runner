@@ -54,7 +54,7 @@ Produce one Cosmos3-Nano image-to-video clip with sound in `media/current/`, usi
 4. Run the same command without `--dry-run`.
 
 ### Expected signals
-- Progress: `[brev] t+…m … RUNNING …` lines with a running cost, then `[c3] …` lines once the setup log arrives (it appears only after the VM script finishes).
+- Progress: `[brev] t+…m … RUNNING …` lines with a running cost, then `[c3] …` lines as the setup log streams in. The runner stops polling only on the bootstrap's final `[c3] … done` line or a `[launchable] … RESULT=FAIL` line; a setup that dies without either is caught by `--cap-min`.
 - **Success:** a `RESULT=PASS reason=rendered scene=… render_s=… sha256=…` line, then `[run] returned <scene>_preview.mp4 … MATCH`, exit code 0.
 - **Failure:** `RESULT=FAIL reason=<slug>` (e.g. `server-exited-before-ready` with `[c3] err|` out-of-memory lines on a too-small GPU, `input-image-sha-mismatch`, `weights-rev-changed`, `ready-timeout`), exit code 1. Exit 2 = preflight error, 3 = hard cap hit or workspace not found.
 
