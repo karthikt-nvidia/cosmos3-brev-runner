@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the recommended Cosmos3 scene on Brev through the thin clone-and-bootstrap launchable (control plane only).
 
-Status: recommended canonical runner, pending first GPU validation.
+Status: recommended canonical runner; see README "Status" for GPU validation.
 
 The thin launchable (setup script = launchable/setup.sh, text params REPO, REF, BOOTSTRAP and optionally
 INPUT_IMAGE_URL, INPUT_IMAGE_SHA256, SCENE_NAME, SEED, DEADLINE_S) clones REPO at REF and runs
@@ -79,7 +79,7 @@ def main():
     psha = ""
     try: psha = hashlib.sha256(open(os.path.join(HERE, "scene", "prompt.json"), "rb").read()).hexdigest()
     except OSError: pass
-    print("[preflight] status: recommended canonical runner, pending first GPU validation")
+    print("[preflight] status: recommended canonical runner (GPU validation: see README)")
     print(f"[preflight] local scene: name={env.get('SCENE_NAME', '-')} prompt_sha256={psha[:16] or '-'} image={params.get('INPUT_IMAGE_URL', env.get('INPUT_IMAGE_URL', '-'))}")
     print("[preflight] note: the VM renders scene/ as committed at --ref; compare prompt_sha256 with the VM log's [c3] start line")
     print(f"[preflight] brev={shutil.which('brev') or 'MISSING'} BREV_API_KEY={'set' if os.environ.get('BREV_API_KEY') else 'MISSING'}")

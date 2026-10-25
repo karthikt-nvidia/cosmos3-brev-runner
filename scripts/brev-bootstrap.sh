@@ -2,7 +2,7 @@
 # Recommended Cosmos3-Nano workload: ONE image-to-video scene, 1280x720, 189 frames, 24 fps, with sound.
 # Run by launchable/setup.sh (thin clone-and-bootstrap) from the repo root:
 #   BOOTSTRAP=scripts/brev-bootstrap.sh (the default)
-# Status: recommended canonical runner, pending first GPU validation.
+# Status: recommended canonical runner; see README "Status" for GPU validation.
 # Settings (pinned vLLM-Omni image, Cosmos3-Nano revision, --no-guardrails,
 # request fields, log transport) match an earlier verified two-clip prototype run.
 # Prints [c3] lines and exactly one RESULT=PASS|FAIL line. Needs no secrets.
