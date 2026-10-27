@@ -1,5 +1,5 @@
 #!/bin/bash
-# Recommended Cosmos3-Nano workload: ONE image-to-video scene, 1280x720, 189 frames, 24 fps, with sound.
+# Recommended Cosmos3-Nano workload: ONE image-to-video scene, 1280x720, 121 frames, 24 fps, with sound.
 # Run by launchable/setup.sh (thin clone-and-bootstrap) from the repo root:
 #   BOOTSTRAP=scripts/brev-bootstrap.sh (the default)
 # Status: recommended canonical runner; see README "Status" for GPU validation.
@@ -111,11 +111,11 @@ wait  # ffmpeg install
 
 # --- one render ---
 OUT="$W/out/${SCENE_NAME}.mp4"
-log "render ${SCENE_NAME} start (1280x720, 189 frames, 24 fps, sound, seed ${SEED})"
+log "render ${SCENE_NAME} start (1280x720, 121 frames, 24 fps, sound, seed ${SEED})"
 T0=$(date +%s)
 HTTP=$(curl -s -m "$(( $(left) - 240 ))" -o "$OUT" -w '%{http_code}' -H 'Accept: video/mp4' \
-  -F "prompt=<${PROMPT}" -F "negative_prompt=<$W/neg.json" -F size=1280x720 -F num_frames=189 -F fps=24 \
-  -F num_inference_steps=35 -F guidance_scale=6.0 -F max_sequence_length=4096 -F generate_sound=true -F sound_duration=7.875 \
+  -F "prompt=<${PROMPT}" -F "negative_prompt=<$W/neg.json" -F size=1280x720 -F num_frames=121 -F fps=24 \
+  -F num_inference_steps=35 -F guidance_scale=6.0 -F max_sequence_length=4096 -F generate_sound=true -F sound_duration=5.042 \
   -F flow_shift=10.0 -F "seed=${SEED}" \
   --form-string 'extra_params={"use_resolution_template": false, "use_duration_template": false, "guardrails": false}' \
   -F "input_reference=@${IMG}" http://localhost:8000/v1/videos/sync)
